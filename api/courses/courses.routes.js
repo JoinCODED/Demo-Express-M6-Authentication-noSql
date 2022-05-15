@@ -7,6 +7,7 @@ const {
   fetchCourse,
   courseEnroll,
 } = require('./courses.controllers');
+const passport = require('passport');
 
 router.param('courseId', async (req, res, next, courseId) => {
   const course = await fetchCourse(courseId, next);
@@ -21,7 +22,11 @@ router.param('courseId', async (req, res, next, courseId) => {
 });
 
 router.get('/', coursesGet);
-router.post('/:courseId/:studentId', courseEnroll);
+router.post(
+  '/:courseId/:studentId',
+  passport.authenticate('jwt', { session: false }),
+  courseEnroll
+);
 
 router.delete('/:courseId', coursesDelete);
 

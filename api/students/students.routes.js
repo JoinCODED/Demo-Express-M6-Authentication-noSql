@@ -4,9 +4,11 @@ const {
   studentsGet,
   studentsUpdate,
   studentsDelete,
-  studentsCreate,
+  signup,
   fetchStudent,
+  signin,
 } = require('./students.controllers');
+const passport = require('passport');
 
 router.param('studentId', async (req, res, next, studentId) => {
   const student = await fetchStudent(studentId, next);
@@ -21,7 +23,12 @@ router.param('studentId', async (req, res, next, studentId) => {
 });
 
 router.get('/', studentsGet);
-router.post('/', studentsCreate);
+router.post('/signup', signup);
+router.post(
+  '/signin',
+  passport.authenticate('local', { session: false }),
+  signin
+);
 
 router.delete('/:studentId', studentsDelete);
 

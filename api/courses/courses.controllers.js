@@ -41,7 +41,7 @@ exports.coursesGet = async (req, res, next) => {
 
 exports.courseEnroll = async (req, res, next) => {
   try {
-    const { studentId } = req.params;
+    const studentId = req.user.id;
     await Course.findByIdAndUpdate(req.course.id, {
       $push: { students: studentId },
     });
