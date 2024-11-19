@@ -1,14 +1,21 @@
 const connectDb = require("./database");
 
 const express = require("express");
-const app = express();
+const passport = require("passport");
+
 const authRoutes = require("./api/auth/auth.routes");
 const teachersRoutes = require("./api/teachers/teachers.routes");
 const studentsRoutes = require("./api/students/students.routes");
 const coursesRoutes = require("./api/courses/courses.routes");
+const { localStrategy } = require("./middleware/passport");
+
+const app = express();
 
 connectDb();
 app.use(express.json());
+app.use(passport.initialize());
+passport.use(localStrategy);
+
 app.use("/auth", authRoutes);
 app.use("/teachers", teachersRoutes);
 app.use("/students", studentsRoutes);
