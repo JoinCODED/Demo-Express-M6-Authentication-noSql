@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/JoinCODED/Task-Express-M1-Intro-Crud-Banks#readme",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "express": "^4.17.2",
     "mongoose": "^6.3.0"
   }

@@ -1,13 +1,14 @@
-const { model, Schema } = require('mongoose');
+const { model, Schema } = require("mongoose");
 
 const StudentSchema = new Schema({
   name: String,
+  user: { type: Schema.Types.ObjectId, ref: "User" },
   courses: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Course',
+      ref: "Course",
     },
   ],
 });
 
-module.exports = model('Student', StudentSchema);
+module.exports = model("Student", StudentSchema);
