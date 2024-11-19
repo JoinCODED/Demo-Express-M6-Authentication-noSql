@@ -7,7 +7,7 @@ const authRoutes = require("./api/auth/auth.routes");
 const teachersRoutes = require("./api/teachers/teachers.routes");
 const studentsRoutes = require("./api/students/students.routes");
 const coursesRoutes = require("./api/courses/courses.routes");
-const { localStrategy } = require("./middleware/passport");
+const { localStrategy, jwtStrategy } = require("./middleware/passport");
 
 const app = express();
 
@@ -15,6 +15,7 @@ connectDb();
 app.use(express.json());
 app.use(passport.initialize());
 passport.use(localStrategy);
+passport.use(jwtStrategy);
 
 app.use("/auth", authRoutes);
 app.use("/teachers", teachersRoutes);
