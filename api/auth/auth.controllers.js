@@ -18,7 +18,16 @@ exports.signup = async (req, res, next) => {
     });
     profile.user = user._id;
     profile.save();
-    res.status(201).json({ message: "Student account created" });
+
+    const payload = {
+      id: user.id,
+      profile: user.profile,
+      email: user.email,
+      exp: Date.now() + +process.env.JWT_EXPIRATION_MS,
+    };
+    const token = jwt.sign(JSON.stringify(payload), process.env.JWT_SECRET);
+
+    res.status(201).json({ token });
   } catch (error) {
     next(error);
   }
