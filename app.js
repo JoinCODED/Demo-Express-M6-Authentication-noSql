@@ -1,8 +1,8 @@
-const connectDb = require("./database");
-
 const express = require("express");
 const passport = require("passport");
+require("dotenv/config");
 
+const connectDb = require("./database");
 const authRoutes = require("./api/auth/auth.routes");
 const teachersRoutes = require("./api/teachers/teachers.routes");
 const studentsRoutes = require("./api/students/students.routes");

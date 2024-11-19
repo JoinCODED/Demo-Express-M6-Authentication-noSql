@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const Student = require("../../models/Student");
 const User = require("../../models/User");
@@ -6,8 +7,7 @@ const User = require("../../models/User");
 exports.signup = async (req, res, next) => {
   const { name, email, password } = req.body;
 
-  const saltRounds = 10;
-  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  const hashedPassword = await bcrypt.hash(password, +process.env.SALT_ROUNDS);
 
   try {
     const profile = await Student.create({ name });
@@ -24,7 +24,14 @@ exports.signup = async (req, res, next) => {
   }
 };
 
-exports.signin = async (req, res, next) => {
-  console.log(req.user);
-  res.end();
+exports.signin = async (req, res) => {
+  const { user } = req;
+  const payload = {
+    id: user.id,
+    profile: user.profile,
+    email: user.email,
+    exp: Date.now() + +process.env.JWT_EXPIRATION_MS,
+  };
+  const token = jwt.sign(JSON.stringify(payload), process.env.JWT_SECRET);
+  res.status(200).json({ token });
 };
