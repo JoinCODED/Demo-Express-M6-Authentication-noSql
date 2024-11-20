@@ -1,5 +1,5 @@
-const Course = require("../../models/Course");
-const Student = require("../../models/Student");
+const Course = require('../../models/Course');
+const Student = require('../../models/Student');
 
 exports.fetchCourse = async (courseId, next) => {
   try {
@@ -30,9 +30,9 @@ exports.coursesUpdate = async (req, res, next) => {
 
 exports.coursesGet = async (req, res, next) => {
   try {
-    const courses = await Course.find({}, "-createdAt -updatedAt")
-      .populate("teacherId", "name")
-      .populate("students", "name");
+    const courses = await Course.find({}, '-createdAt -updatedAt')
+      .populate('teacherId', 'name')
+      .populate('students', 'name');
     res.json(courses);
   } catch (error) {
     next(error);
@@ -41,7 +41,7 @@ exports.coursesGet = async (req, res, next) => {
 
 exports.courseEnroll = async (req, res, next) => {
   try {
-    const studentId = req.user.profile;
+    const { studentId } = req.params;
     await Course.findByIdAndUpdate(req.course.id, {
       $push: { students: studentId },
     });
